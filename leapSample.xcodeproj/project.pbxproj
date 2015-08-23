@@ -174,6 +174,9 @@
 		EBCC4D051B80F1CE0088AF85 /* dev_ofpath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCC4CAD1B80F1CE0088AF85 /* dev_ofpath.cpp */; };
 		EBCC4D061B80F1CE0088AF85 /* ofxPDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCC4CAE1B80F1CE0088AF85 /* ofxPDF.cpp */; };
 		EBCDE831EFAE08274E799C97 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 402C8F4015542356D362AC88 /* Calibration.cpp */; };
+		EBFB54A01B877F6B00FFC071 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBFB54931B877F6B00FFC071 /* Timer.cpp */; };
+		EBFB54D41B877F7E00FFC071 /* HapSupport.c in Sources */ = {isa = PBXBuildFile; fileRef = EBFB54CB1B877F7E00FFC071 /* HapSupport.c */; };
+		EBFB54D61B877F7E00FFC071 /* ofxHapPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBFB54D01B877F7E00FFC071 /* ofxHapPlayer.cpp */; };
 		F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E112B3AEBEA2C091BF2B40AE /* ofxPanel.cpp */; };
 		F75A96FFB5CA3A70D0903987 /* ftDrawMouseForces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A7D289BFD058F2CF626BC0 /* ftDrawMouseForces.cpp */; };
 		F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2D8249D46647E3C51769CDE /* fdog.cpp */; };
@@ -610,6 +613,25 @@
 		EBCC4CAD1B80F1CE0088AF85 /* dev_ofpath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dev_ofpath.cpp; sourceTree = "<group>"; };
 		EBCC4CAE1B80F1CE0088AF85 /* ofxPDF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPDF.cpp; sourceTree = "<group>"; };
 		EBCC4CAF1B80F1CE0088AF85 /* ofxPDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxPDF.h; sourceTree = "<group>"; };
+		EBFB54861B877F6B00FFC071 /* Composition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Composition.h; sourceTree = "<group>"; };
+		EBFB54871B877F6B00FFC071 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		EBFB54891B877F6B00FFC071 /* Composition.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Composition.inc.h; sourceTree = "<group>"; };
+		EBFB548A1B877F6B00FFC071 /* coroutine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = coroutine.hpp; sourceTree = "<group>"; };
+		EBFB548B1B877F6B00FFC071 /* Easing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Easing.h; sourceTree = "<group>"; };
+		EBFB548C1B877F6B00FFC071 /* Generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Generator.h; sourceTree = "<group>"; };
+		EBFB548D1B877F6B00FFC071 /* InstanceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstanceManager.h; sourceTree = "<group>"; };
+		EBFB548E1B877F6B00FFC071 /* Lerp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lerp.h; sourceTree = "<group>"; };
+		EBFB548F1B877F6B00FFC071 /* Pattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pattern.h; sourceTree = "<group>"; };
+		EBFB54901B877F6B00FFC071 /* Replicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Replicator.h; sourceTree = "<group>"; };
+		EBFB54911B877F6B00FFC071 /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
+		EBFB54921B877F6B00FFC071 /* Sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequence.h; sourceTree = "<group>"; };
+		EBFB54931B877F6B00FFC071 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
+		EBFB54941B877F6B00FFC071 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
+		EBFB54951B877F6B00FFC071 /* ofxAnimationPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimationPrimitives.h; sourceTree = "<group>"; };
+		EBFB54CB1B877F7E00FFC071 /* HapSupport.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HapSupport.c; sourceTree = "<group>"; };
+		EBFB54CC1B877F7E00FFC071 /* HapSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HapSupport.h; sourceTree = "<group>"; };
+		EBFB54D01B877F7E00FFC071 /* ofxHapPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxHapPlayer.cpp; sourceTree = "<group>"; };
+		EBFB54D11B877F7E00FFC071 /* ofxHapPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxHapPlayer.h; sourceTree = "<group>"; };
 		EC4179AA42E82A975E5EDC50 /* ftParticleFlow.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ftParticleFlow.cpp; path = ../../../addons/ofxFlowTools/src/particles/ftParticleFlow.cpp; sourceTree = SOURCE_ROOT; };
 		EC7010EF6B37BFA1C8980BD5 /* ftPressureFieldShader.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ftPressureFieldShader.h; path = ../../../addons/ofxFlowTools/src/visualisation/ftPressureFieldShader.h; sourceTree = SOURCE_ROOT; };
 		ECC34C470C60F0A2AE2761B1 /* random.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = random.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/random.h; sourceTree = SOURCE_ROOT; };
@@ -1176,6 +1198,8 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				EBFB54B01B877F7E00FFC071 /* ofxHapPlayer */,
+				EBFB54321B877F6900FFC071 /* ofxAnimationPrimitives */,
 				EBC91C101B84DE9D0004C78E /* ofxTween */,
 				EBCC4C331B80F1CD0088AF85 /* ofxPDF */,
 				EBA45EBE1B7F5E5A00F53E1A /* ofxTrueTypeFontUL2 */,
@@ -1779,6 +1803,97 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		EBFB54321B877F6900FFC071 /* ofxAnimationPrimitives */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54841B877F6B00FFC071 /* src */,
+			);
+			name = ofxAnimationPrimitives;
+			path = ../../../addons/ofxAnimationPrimitives;
+			sourceTree = "<group>";
+		};
+		EBFB54841B877F6B00FFC071 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54851B877F6B00FFC071 /* ofxAnimationPrimitives */,
+				EBFB54951B877F6B00FFC071 /* ofxAnimationPrimitives.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		EBFB54851B877F6B00FFC071 /* ofxAnimationPrimitives */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54861B877F6B00FFC071 /* Composition.h */,
+				EBFB54871B877F6B00FFC071 /* Constants.h */,
+				EBFB54881B877F6B00FFC071 /* detail */,
+				EBFB548B1B877F6B00FFC071 /* Easing.h */,
+				EBFB548C1B877F6B00FFC071 /* Generator.h */,
+				EBFB548D1B877F6B00FFC071 /* InstanceManager.h */,
+				EBFB548E1B877F6B00FFC071 /* Lerp.h */,
+				EBFB548F1B877F6B00FFC071 /* Pattern.h */,
+				EBFB54901B877F6B00FFC071 /* Replicator.h */,
+				EBFB54911B877F6B00FFC071 /* SceneManager.h */,
+				EBFB54921B877F6B00FFC071 /* Sequence.h */,
+				EBFB54931B877F6B00FFC071 /* Timer.cpp */,
+				EBFB54941B877F6B00FFC071 /* Timer.h */,
+			);
+			path = ofxAnimationPrimitives;
+			sourceTree = "<group>";
+		};
+		EBFB54881B877F6B00FFC071 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54891B877F6B00FFC071 /* Composition.inc.h */,
+				EBFB548A1B877F6B00FFC071 /* coroutine.hpp */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
+		EBFB54B01B877F7E00FFC071 /* ofxHapPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54C81B877F7E00FFC071 /* libs */,
+				EBFB54CF1B877F7E00FFC071 /* src */,
+			);
+			name = ofxHapPlayer;
+			path = ../../../addons/ofxHapPlayer;
+			sourceTree = "<group>";
+		};
+		EBFB54C81B877F7E00FFC071 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54C91B877F7E00FFC071 /* HapSupport */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		EBFB54C91B877F7E00FFC071 /* HapSupport */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54CA1B877F7E00FFC071 /* src */,
+			);
+			path = HapSupport;
+			sourceTree = "<group>";
+		};
+		EBFB54CA1B877F7E00FFC071 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54CB1B877F7E00FFC071 /* HapSupport.c */,
+				EBFB54CC1B877F7E00FFC071 /* HapSupport.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		EBFB54CF1B877F7E00FFC071 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				EBFB54D01B877F7E00FFC071 /* ofxHapPlayer.cpp */,
+				EBFB54D11B877F7E00FFC071 /* ofxHapPlayer.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		F9F05170CB9BDF47DA2B6E6A /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -1918,6 +2033,7 @@
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				EBC91C5B1B84DE9D0004C78E /* ofxEasingExpo.cpp in Sources */,
+				EBFB54A01B877F6B00FFC071 /* Timer.cpp in Sources */,
 				EBCC4CFE1B80F1CE0088AF85 /* pdf_stream.c in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
 				EBCC4CC11B80F1CE0088AF85 /* base_memory.c in Sources */,
@@ -2019,6 +2135,7 @@
 				EBCC4CF51B80F1CE0088AF85 /* pdf_nametree.c in Sources */,
 				F75A96FFB5CA3A70D0903987 /* ftDrawMouseForces.cpp in Sources */,
 				EBCC4CFB1B80F1CE0088AF85 /* pdf_repair.c in Sources */,
+				EBFB54D61B877F7E00FFC071 /* ofxHapPlayer.cpp in Sources */,
 				AFBC335CC80DC27DCC9E70D7 /* ftFluidSimulation.cpp in Sources */,
 				EBCC4CEB1B80F1CE0088AF85 /* pdf_colorspace.c in Sources */,
 				EBCC4CFC1B80F1CE0088AF85 /* pdf_shade.c in Sources */,
@@ -2033,6 +2150,7 @@
 				EBC91C5D1B84DE9D0004C78E /* ofxEasingQuad.cpp in Sources */,
 				EBCC4CD41B80F1CE0088AF85 /* filt_predict.c in Sources */,
 				EBCC4CD91B80F1CE0088AF85 /* memento.c in Sources */,
+				EBFB54D41B877F7E00FFC071 /* HapSupport.c in Sources */,
 				EBCC4CCE1B80F1CE0088AF85 /* doc_link.c in Sources */,
 				EBCC4CB31B80F1CE0088AF85 /* draw_blend.c in Sources */,
 				8EA04B616D228D22AEC6C9C8 /* ftAverageVelocity.cpp in Sources */,

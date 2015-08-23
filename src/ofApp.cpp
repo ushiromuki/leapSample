@@ -27,12 +27,20 @@ void ofApp::setup(){
     gui.add(hitCircle.setup("hit radius",200.0,10.0,1000.0));
     gui.add(hitCircleY.setup("hit Y",0,-1000,1000));
     
-    addVideo("mp4/sample.m4v");
-    addVideo("mp4/BDR_orchestra.mp4");
-    for (int i = 0;i < videos.size();i++){
-        videos[i].play();
-        videos[i].setFrame(1);
-        videos[i].setVolume(0.0);
+    
+    backVideos.push_back(new ofxHapPlayer());
+    backVideos.back()->loadMovie("mp4/learge/wait_hap.mov");
+    backVideos.push_back(new ofxHapPlayer());
+    backVideos.back()->loadMovie("mp4/learge/ready_hap.mov");
+    
+    addVideo("mp4/learge/01_sample_hap.mov");
+    addVideo("mp4/learge/02_sample_hap.mov");
+    addVideo("mp4/learge/03_sample_hap.mov");
+    addVideo("mp4/learge/04_sample_hap.mov");
+    for (int i = 0;i < frontVideos.size();i++){
+        frontVideos[i]->play();
+        frontVideos[i]->setFrame(1);
+        frontVideos[i]->setVolume(0.0);
     }
     
     
@@ -45,8 +53,8 @@ void ofApp::setup(){
     
     ofEnableArbTex();
     ofFbo::Settings settings;
-    settings.width = 1920;
-    settings.height = 1080;
+    settings.width = frontVideos[0]->getWidth();
+    settings.height = frontVideos[0]->getHeight();
     settings.internalformat	= GL_RGBA;
     settings.useDepth		= true;
     settings.useStencil		= false;
@@ -92,7 +100,11 @@ void ofApp::setup(){
     
     isTapped = false;
     isHandOut = false;
+    isHandOutSoon = false;
     isStop = false;
+    isWaiting = false;
+    isReady = false;
+    isReadyFinish = false;
     
     fxEnable = true;
     
@@ -106,36 +118,55 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
+    //FPS計算
     deltaTime = ofGetElapsedTimef() - lastTime;
     lastTime = ofGetElapsedTimef();
-    particle.update();
-    particle.update();
-    videos[videoIndex].update();
     
-    // Leap Motion SDK„ÅßÁî®ÊÑè„Åï„Çå„Å¶„ÅÑ„ÇãÊâã(Hand)„ÅÆ„ÇØ„É©„Çπ„ÇíÂèñÂæó„Åó„Å¶vectorÈÖçÂàó„Å∏
+    //BPM
+    bpmTapper.update();
+    
+    //particle
+    particle.update();
+    
+    //video
+    if(isWaiting){
+        backVideos[0]->update();
+    }else if (isReady && !isReadyFinish){
+        backVideos[1]->update();
+        if(backVideos[1]->getPosition()>=0.96){
+           
+            isReadyFinish = true;
+            backVideos[1]->stop();
+        }
+        
+    }else{
+        frontVideos[videoIndex]->update();
+    }
+    
+    
+    // Leap Motion
     vector <Hand> hands = leap.getLeapHands();
     Frame frameprev10 = contoroller.frame(10);
-    //Vector translateValue[2];
     Vector currentPosition[2];
-    //float speedVars[2];
-    //float distance[2];
-    bpmTapper.update();
-    // Êâã„ÅåÊ§úÂá∫„Åï„Çå„Åü„Çâ
     
+    //leapmotion 手を検知したら
     if( leap.isFrameNew() && hands.size()){
         isHandOut = false;
-        int prevVideoIndex = videoIndex;
-        if(prevVideoIndex != 1){
-            videoIndex = 1;
-            videos[videoIndex].setFrame(1);
+        isHandOutSoon = false;
+        isReady = true;
+        if (isReady && isReadyFinish && isWaiting) {
+            isWaiting = false;
+            videoIndex = (int)ofRandom(frontVideos.size());
+            if(prevVideoIndex != videoIndex){
+                frontVideos[videoIndex]->setFrame(1);
+                int currentPos = frontVideos[videoIndex]->getCurrentFrame();
+                
+            }
+            prevVideoIndex = videoIndex;
         }
-       
-        // vectorÈÖçÂàó„Å´Ë®òÊÜ∂„Åó„ÅüÂ∫ßÊ®ô„Çí„ÇØ„É™„Ç¢
         fingerPos.clear();
         spherePos.clear();
         sphereSize.clear();
-        
-        // ÁîªÈù¢„ÅÆÂ§ß„Åç„Åï„Å´„ÅÇ„Çè„Åõ„Å¶„ÄÅ„Çπ„Ç±„Éº„É´„Çí„Éû„ÉÉ„Éî„É≥„Ç∞
         leap.setMappingX(-230, 230, -ofGetWidth()/2, ofGetWidth()/2);
         leap.setMappingY(90, 490, -ofGetHeight()/2, ofGetHeight()/2);
         leap.setMappingZ(-150, 150, -200, 200);
@@ -145,39 +176,34 @@ void ofApp::update(){
             pt = leap.getMappedofPoint(hands[i].palmPosition());
             translateValue[i] = hands[i].translation(frameprev10);
             currentPosition[i] = hands[i].palmPosition();
-            speedVars[i] = hands[i].palmVelocity().magnitude();
+            speedVars[i] = hands[i].palmVelocity().magnitudeSquared()/1000;
             distance[i] = translateValue[i].magnitude();
             fingerPos.push_back(pt);
-            //particle.emitParticle(pt, ofVec3f(hands[i].palmVelocity().x,hands[i].palmVelocity().y,hands[i].palmVelocity().z), EMIT_UNIT_NUM);
         }
         leapmotionStrength = distance[0]>=distance[1]?distance[0]>0?distance[0]:0:distance[1]>0?distance[1]:0;
-        //leapSpeed = speedVars[0]>=speedVars[1]?speedVars[0]>0?speedVars[0]:0:speedVars[1]>0?speedVars[1]:0;
+        
         leapSpeed = speedVars[0];
         previous = current;
         current = fingerPos[0];
         ofColor colorMesh;
         colorMesh.setHsb(ofRandom(80, 230), 230, 255);
-        // add the current position to the pathVertices deque
         pathVertices.push_back(current);
         colorMeshes.push_back(colorMesh);
-        // if we have too many vertices in the deque, get rid of the oldest ones
         while(pathVertices.size() > 15) {
             pathVertices.pop_front();
             
             colorMeshes.pop_front();
         }
-        
-        // clear the pathLines ofMesh from any old vertices
         pathLines.clear();
-        // add all the vertices from pathVertices
         for(unsigned int i = 0; i < pathVertices.size(); i++) {
             pathLines.addVertex(pathVertices[i]);
             pathLines.addColor(colorMeshes[i]);
         }
-
         
     }else{
-        isHandOut = true;
+        //isHandOut = true;
+        isHandOutSoon = true;
+        leapSpeed = 0;
         pathLines.clear();
         pathVertices.clear();
     }
@@ -207,14 +233,12 @@ void ofApp::draw(){
     
     guiMinFPS.set(1.0 / longestTime);
     
+    
     //早さ感知ちょっと微妙
     if(leapSpeed > 1000){
         if(!isTapped){
             
             bpmTapper.tap();
-            
-
-            //bpmTapper.startFresh();
             isTapped = true;
             bpmDownCount.clear();
         }
@@ -224,19 +248,21 @@ void ofApp::draw(){
         if(bpmTapper.beatPerc()>0.9){
             bpmDownCount.push_back(bpmTapper.beatPerc());
             
-            //bpmTapper.startFresh();
             if(bpmDownCount.size()>2){
                 bpmTapper.tap();
                 bpmDownCount.clear();
+                if(isHandOutSoon){
+                    isHandOut = true;
+                }
+                
             }
         }
-        if(videoIndex>0&&bpm>10){
-            
-            //bpm--;
-            //bpmTapper.setBpm(bpm);
-            
-        }
         isTapped = false;
+    }
+    
+    //leapmotionhand検知外にいってもBPMはかる
+    if (isHandOutSoon) {
+        //bpmTapper.tap();
     }
     
     //////////////////////
@@ -248,7 +274,9 @@ void ofApp::draw(){
     
     ofSetColor(255);
     
-    videos[videoIndex].getTextureReference().bind();
+    ofTexture *vidtexture;
+    /*
+    vidtexture->bind();
     glBegin(GL_TRIANGLE_STRIP);
     
     glTexCoord2d(mask.x, mask.y);
@@ -265,7 +293,30 @@ void ofApp::draw(){
     
     glEnd();
     
-    videos[videoIndex].getTextureReference().unbind();
+    vidtexture->unbind();
+    */
+    ofShader *shader;
+    if (isWaiting) {
+        vidtexture = backVideos[0]->getTexture();
+        shader = backVideos[0]->getShader();
+    }else if(isReady && !isReadyFinish){
+        vidtexture = backVideos[1]->getTexture();
+        shader = backVideos[1]->getShader();
+    }else{
+        vidtexture = frontVideos[videoIndex]->getTexture();
+        shader = frontVideos[videoIndex]->getShader();
+    }
+    
+    // the result of getShader() will be NULL if the movie is not Hap Q
+    if (shader)
+    {
+        shader->begin();
+    }
+    vidtexture->draw(0,0);
+    if (shader)
+    {
+        shader->end();
+    }
     
     
     if (fxEnable){
@@ -332,26 +383,17 @@ void ofApp::draw(){
 
         
         }
-        
-        //ofCircle(0, 0, 100);
         ofPopMatrix();
 
     }
     
     ofEnableDepthTest();
-    // „Ç´„É°„É©ÈñãÂßã
-    
+
     ///////////////
     ///デバッグ表示
     cam.begin();
-    // Ê§úÂá∫„Åï„Çå„ÅüÊåá„ÅÆÊï∞„Å†„Åë„Åè„Çä„Åã„Åà„Åó
     int ct = 0;
     for(int i = 0; i < fingerPos.size(); i++){
-        // Ê§úÂá∫„Åï„Çå„Åü‰ΩçÁΩÆ„Å´ÁêÉ„ÇíÊèèÁîª
-        //ofSpherePrimitive sphere;
-        //sphere.setPosition(fingerPos[i].x, fingerPos[i].y, fingerPos[i].z);
-        
-        
         if(isTapped){
             
             ofSetColor(255, 127, 0, 127);
@@ -364,7 +406,7 @@ void ofApp::draw(){
     }
     
     
-    pathLines.draw();
+    pathLines.drawWireframe();
     ofSetColor(255, 255, 0, 127);
     // „É°„ÉÉ„Ç∑„É•ÊèèÁîª
     ofSetColor(255);
@@ -414,7 +456,7 @@ void ofApp::draw(){
     
     if (isHandOut) {
         
-        if(videoIndex>0){
+        if(isReadyFinish && isReady){
             if (bpm>10) {
                 bpm.set((bpm-2)*0.98);
             }else{
@@ -429,13 +471,14 @@ void ofApp::draw(){
                 leapmotionStrength = 0;
             }
             
-            if(bpm<10 && !isStop){
-                
-                isStop = true;
-                videos[videoIndex].stop();
-                videoIndex = 0;
-                videos[videoIndex].setFrame(1);
-                videos[videoIndex].play();
+            if(bpm<10){
+                isReady = false;
+                isReadyFinish = false;
+                isWaiting = true;
+                frontVideos[videoIndex]->stop();
+                frontVideos[videoIndex]->setFrame(1);
+                //backVideos[0]->setFrame(1);
+                backVideos[0]->play();
                 effect.getfxUnit(KSMR_FRAGFX_FRINGE)->bEnable		= false;
                 effect.getfxUnit(KSMR_FRAGFX_TEXCHIP)->bEnable	= false;
                 effect.getfxUnit(KSMR_FRAGFX_VERTNOISE)->bEnable	= false;
@@ -454,26 +497,21 @@ void ofApp::draw(){
         effect.getfxUnit(KSMR_FRAGFX_FRINGE)->bEnable		= false;
         effect.getfxUnit(KSMR_FRAGFX_TEXCHIP)->bEnable	= false;
         effect.getfxUnit(KSMR_FRAGFX_VERTNOISE)->bEnable	= false;
-
-        if(isStop){
-            
-            videos[videoIndex].play();
-            isStop = false;
+        if(isReady && !isReadyFinish){
+            if (!backVideos[1]->isPlaying()) {
+                backVideos[0]->stop();
+                backVideos[1]->setFrame(1);
+                backVideos[1]->play();
+            }
             
         }
-        
+        if(isReady && isReadyFinish){
+            backVideos[1]->stop();
+            if(!frontVideos[videoIndex]->isPlaying()){
+                frontVideos[videoIndex]->play();
+            }
+        }
     }
-    
-    float cacheBPM = bpmTapper.bpm();
-    
-    if(cacheBPM>120){
-        cacheBPM = 120;
-    }else if(cacheBPM<0){
-        cacheBPM = 0;
-    }
-    
-    bpm.set(cacheBPM);
-    videoVolume.set(ofMap(leapmotionStrength, 0, 300.0, 0, 1));
     
     if(abs(bpm-prevBPM)>5){
         videoSpeed.set(ofMap(bpm,0,160,0,2));
@@ -483,22 +521,36 @@ void ofApp::draw(){
         
     }
     
+    float cacheBPM = bpmTapper.bpm();
     
-    if(videoIndex>0){
-        videos[videoIndex].setSpeed(videoSpeed);
-        videos[videoIndex].setVolume(videoVolume);
+    if(cacheBPM>160){
+        cacheBPM = 160;
+    }else if(cacheBPM<0){
+        cacheBPM = 0;
+    }
+    
+    bpm.set(cacheBPM);
+    videoVolume.set(ofMap(leapmotionStrength, 0, 300.0, 0, 1));
+    
+    if(isReadyFinish && isReady){
+        frontVideos[videoIndex]->setSpeed(videoSpeed);
+        frontVideos[videoIndex]->setVolume(videoVolume);
     }else{
         bpmTapper.setBpm(60.0);
-        videos[videoIndex].setSpeed(1.0);
-        videos[videoIndex].setVolume(0);
+        backVideos[0]->setSpeed(1.0);
+        backVideos[0]->setVolume(0);
     }
     
 }
 
 void ofApp::exit(){
-    for (int i = 0;i < videos.size();i++){
-        videos[i].close();
+    for (int i = 0;i < frontVideos.size();i++){
+        frontVideos[i]->close();
     }
+    for (int i = 0;i < backVideos.size();i++){
+        backVideos[i]->close();
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -564,10 +616,8 @@ bool ofApp::handInArea(Vector pos){
 }
 
 void ofApp::addVideo(string file){
-    ofVideoPlayer p;
-    videos.push_back(p);
-    videos.back().loadMovie(file);
-    
+    frontVideos.push_back(new ofxHapPlayer());
+    frontVideos.back()->loadMovie(file);
 
 }
 

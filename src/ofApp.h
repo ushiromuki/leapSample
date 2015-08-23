@@ -4,11 +4,13 @@
 #include "ofxLeapMotion.h"
 #include "ofxGui.h"
 #include "MSABPMTapper.h"
+#include "MSATimer.h"
 #include "ParticleEmitter.h"
 #include "ofxKsmrFragmentFx.h"
 #include "ofxTrueTypeFontUL2.h"
 #include "ofxPDF.h"
 #include "AnimationObj.h"
+#include "ofxHapPlayer.h"
 
 
 class ofApp : public ofBaseApp{
@@ -33,9 +35,9 @@ public:
     void addVideo(string file);
     void particleShow();
     
-    ofxLeapMotion leap; // Leap Motion„ÅÆ„É°„Ç§„É≥„ÇØ„É©„Çπ„Çí„Ç§„É≥„Çπ„Çø„É≥„ÇπÂåñ
-    ofEasyCam cam; //„Ç´„É°„É©
-    ofLight light; //„É©„Ç§„Éà
+    ofxLeapMotion leap;
+    ofEasyCam cam;
+    ofLight light;
     vector <ofVec3f> fingerPos;     // Êåá„ÅÆ‰ΩçÁΩÆ„ÅÆÈÖçÂàó
     vector <ofVec3f> spherePos;     // Êâã„ÅåÂèñ„ÇäÂõ≤„ÇÄÁêÉ‰Ωì„ÅÆ‰ΩçÁΩÆ„ÅÆÈÖçÂàó
     vector <float> sphereSize;      // Êâã„ÅåÂèñ„ÇäÂõ≤„ÇÄÁêÉ‰Ωì„ÅÆÂ§ß„Åç„Åï„ÅÆÈÖçÂàó
@@ -44,6 +46,7 @@ public:
     Vector translateValue[2];
     
     bool isHandOut;
+    bool isHandOutSoon;
     
     //Users/ushiromuki/of_v0.8.4_osx_release/apps/myApps/leapSample/src/ofApp.cpp/leap motion
     Controller contoroller;
@@ -51,10 +54,15 @@ public:
     
     //video
     int videoIndex;
-    vector<ofVideoPlayer> videos;
+    int prevVideoIndex;
+    vector<ofxHapPlayer*> frontVideos;
+    vector<ofxHapPlayer*> backVideos;
     ofFbo buffer;
     ofRectangle mask;
     bool isStop;
+    bool isWaiting;
+    bool isReady;
+    bool isReadyFinish;
     float prevBPM;
     
     
@@ -84,6 +92,7 @@ public:
     msa::BPMTapper bpmTapper;
     bool isTapped;
     vector<float> bpmDownCount;
+    msa::Timer Timer;
     
     
     //gui
