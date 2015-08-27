@@ -31,7 +31,6 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    bool handInArea(Vector pos);
     void addVideo(string file);
     void particleShow();
     
@@ -47,13 +46,14 @@ public:
     
     bool isHandOut;
     bool isHandOutSoon;
+    bool isHandOutTap;
     
     //Users/ushiromuki/of_v0.8.4_osx_release/apps/myApps/leapSample/src/ofApp.cpp/leap motion
     Controller contoroller;
     ofVec3f centerSpherePos;
     
     //video
-    int videoIndex;
+    ofParameter<int> videoIndex;
     int prevVideoIndex;
     vector<ofxHapPlayer*> frontVideos;
     vector<ofxHapPlayer*> backVideos;
@@ -77,14 +77,12 @@ public:
     
     //image
     ofImage textImg[3];
-    AnimationObj anime;
-        
+    AnimationObj anime[3];
+    
     
     //particle
     ParticleEmitter particle;
     vector<ofTexture*> texs;
-    
-    ofColor basecolor;
     
     // Time
     float				lastTime;
@@ -93,7 +91,11 @@ public:
     bool isTapped;
     vector<float> bpmDownCount;
     msa::Timer Timer;
+    ofImage circleImg;
+
     
+    //font
+    ofxTrueTypeFontUL2 font;
     
     //gui
     bool toggleGuiDraw;
@@ -106,7 +108,11 @@ public:
     ofParameter<float> leapSpeed;
     ofParameter<float> videoSpeed;
     ofParameter<float> videoVolume;
-
-    ofxFloatSlider hitCircle;
-    ofxFloatSlider hitCircleY;
+    ofParameter<float> correctBPM;
+    ofParameter<float> correctLeapVec;
+    
+    ofxFloatColorSlider basecolor;
+    ofxButton particleBotton;
+    
+    
 };

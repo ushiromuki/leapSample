@@ -12,7 +12,7 @@
 #include "ofMain.h"
 
 #define MAX_PARTICLE_NUM 2500
-#define EMIT_UNIT_NUM 4
+#define EMIT_UNIT_NUM 6
 
 class ParticleEmitter{
 public:
@@ -29,10 +29,14 @@ public:
     vector<ofVec3f>			pts[EMIT_UNIT_NUM];
     vector<ofVec3f>			vecs[EMIT_UNIT_NUM];
     vector<ofFloatColor>	colors[EMIT_UNIT_NUM];
+    vector<float>           angles[EMIT_UNIT_NUM];
+    vector<float>           pointsz[EMIT_UNIT_NUM];
     
     float attenuation;
     float life;
     ofImage texture;
+    
+    ofShader shader;
 };
 
 

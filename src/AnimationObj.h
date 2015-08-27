@@ -9,14 +9,21 @@
 #ifndef __leapSample__AnimationObj__
 #define __leapSample__AnimationObj__
 
+
 #include "ofMain.h"
 #include "ofxTween.h"
 
+
 class AnimationObj{
 public:
-    void setup();
+    
+    void onOneshotTimerEvent(int&);
+    void onRepeatTimerEvent(int&);
+
+    
+    void setup(ofImage *orgImg);
     void update();
-    void draw();
+    void draw(float volume);
     
     void reset();
     
@@ -27,6 +34,18 @@ public:
     string easestring;
     
     ofxTween twn;
+    
+    float speed;
+    float _alpha;
+    bool isRunning;
+    
+    unsigned char* orgPixels;
+    vector<ofVec2f> dotPoints;
+    vector<ofVec2f> orgPoints;
+    vector<ofColor> orgColors;
+    
+    int IMG_W;
+    int IMG_H;
 };
 
 
